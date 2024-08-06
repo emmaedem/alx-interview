@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 def sieve_of_eratosthenes(n):
 
     primes = [True] * (n + 1)
