@@ -1,66 +1,42 @@
 #!/usr/bin/python3
 
 def sieve_of_eratosthenes(n):
-
+    """ Generate a list of primes up to n using the Sieve of Eratosthenes. """
     primes = [True] * (n + 1)
-
+    primes[0], primes[1] = False, False  # 0 and 1 are not prime numbers
     p = 2
-
-    while p * p <= n:
-
-        if primes[p] == True:
-
+    
+    while (p * p <= n):
+        if primes[p]:
             for i in range(p * p, n + 1, p):
-
                 primes[i] = False
         p += 1
-
-    prime_numbers = [p for p in range(2, n + 1) if primes[p]]
-
-    return prime_numbers
+    
+    prime_counts = [0] * (n + 1)
+    count = 0
+    
+    for i in range(2, n + 1):
+        if primes[i]:
+            count += 1
+        prime_counts[i] = count
+    
+    return prime_counts
 
 def isWinner(x, nums):
+    if not nums or x < 1:
+        return None
 
     max_n = max(nums)
-
-    primes = sieve_of_eratosthenes(max_n)
+    prime_counts = sieve_of_eratosthenes(max_n)
     
     maria_wins = 0
-
     ben_wins = 0
     
     for n in nums:
-
-        prime_set = primes[:]
-
-        current_player = "Maria"
-
-        available_numbers = set(range(1, n + 1))
-        
-        while True:
-
-            move_made = False
-
-            for p in prime_set:
-
-                if p in available_numbers:
-
-                    available_numbers -= set(range(p, n + 1, p))
-
-                    move_made = True
-
-                    break
-            
-            if not move_made:
-
-                if current_player == "Maria":
-
-                    ben_wins += 1
-                else:
-                    maria_wins += 1
-                break
-            
-            current_player = "Ben" if current_player == "Maria" else "Maria"
+        if prime_counts[n] % 2 == 0:
+            ben_wins += 1
+        else:
+            maria_wins += 1
     
     if maria_wins > ben_wins:
         return "Maria"
