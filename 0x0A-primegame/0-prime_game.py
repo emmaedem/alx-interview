@@ -8,6 +8,7 @@ def sieve_of_eratosthenes(n):
                 is_prime[i] = False
         p += 1
     
+    # the number of primes up to each number
     prime_count = [0] * (n + 1)
     count = 0
     for i in range(2, n + 1):
@@ -28,6 +29,7 @@ def isWinner(x, nums):
     ben_wins = 0
     
     for n in nums:
+        # Determine the number of primes up to n
         if prime_count[n] % 2 == 0:
             ben_wins += 1
         else:
